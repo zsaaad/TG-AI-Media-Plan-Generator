@@ -3,6 +3,7 @@ let formOptions = {};
 let currentResults = null;
 let selectedIndustry = '';
 let selectedMarketingGoal = '';
+let selectedSecondaryMarketingGoal = '';
 let availableGoals = [];
 let selectedPlatforms = [];
 
@@ -116,6 +117,7 @@ const elements = {
     form: document.getElementById('mediaForm'),
     industrySelect: document.getElementById('industry'),
     marketingGoalSelect: document.getElementById('marketingGoal'),
+    secondaryMarketingGoalSelect: document.getElementById('secondaryMarketingGoal'),
     platformWordCloud: document.getElementById('platformWordCloud'),
     monthlyBudgetInput: document.getElementById('monthlyBudget'),
     generateBtn: document.getElementById('generateBtn'),
@@ -162,9 +164,12 @@ function populateSelectOptions() {
     });
 
     // Marketing goals will be populated dynamically based on industry selection
-    // Keep the marketing goal select disabled initially
+    // Keep the marketing goal selects disabled initially
     elements.marketingGoalSelect.disabled = true;
     elements.marketingGoalSelect.innerHTML = '<option value="">Select an industry first</option>';
+    
+    elements.secondaryMarketingGoalSelect.disabled = true;
+    elements.secondaryMarketingGoalSelect.innerHTML = '<option value="">Select an industry first</option>';
 }
 
 // Create platform word cloud
@@ -230,9 +235,10 @@ function attachEventListeners() {
     elements.form.addEventListener('submit', handleFormSubmit);
     elements.industrySelect.addEventListener('change', handleIndustryChange);
     elements.marketingGoalSelect.addEventListener('change', handleMarketingGoalChange);
+    elements.secondaryMarketingGoalSelect.addEventListener('change', handleSecondaryMarketingGoalChange);
     
     // Update form validation on input changes
-    [elements.industrySelect, elements.marketingGoalSelect, elements.monthlyBudgetInput]
+    [elements.industrySelect, elements.marketingGoalSelect, elements.secondaryMarketingGoalSelect, elements.monthlyBudgetInput]
         .forEach(element => {
             element.addEventListener('change', updateFormValidation);
             element.addEventListener('input', updateFormValidation);
@@ -247,30 +253,48 @@ function handleIndustryChange(e) {
     selectedIndustry = e.target.value;
     availableGoals = industryMarketingGoals[selectedIndustry] || [];
     
-    // Reset marketing goal selection
+    // Reset marketing goal selections
     selectedMarketingGoal = '';
+    selectedSecondaryMarketingGoal = '';
     elements.marketingGoalSelect.value = '';
+    elements.secondaryMarketingGoalSelect.value = '';
     
-    // Update marketing goals dropdown
+    // Update marketing goals dropdowns
     if (selectedIndustry) {
+        // Primary marketing goal dropdown
         elements.marketingGoalSelect.disabled = false;
-        elements.marketingGoalSelect.innerHTML = '<option value="">Choose a goal...</option>';
+        elements.marketingGoalSelect.innerHTML = '<option value="">Choose your primary goal...</option>';
+        
+        // Secondary marketing goal dropdown
+        elements.secondaryMarketingGoalSelect.disabled = false;
+        elements.secondaryMarketingGoalSelect.innerHTML = '<option value="">Choose a secondary goal (optional)...</option>';
         
         availableGoals.forEach(goal => {
-            const option = document.createElement('option');
-            option.value = goal;
-            option.textContent = goal;
-            elements.marketingGoalSelect.appendChild(option);
+            // Add to primary dropdown
+            const primaryOption = document.createElement('option');
+            primaryOption.value = goal;
+            primaryOption.textContent = goal;
+            elements.marketingGoalSelect.appendChild(primaryOption);
+            
+            // Add to secondary dropdown
+            const secondaryOption = document.createElement('option');
+            secondaryOption.value = goal;
+            secondaryOption.textContent = goal;
+            elements.secondaryMarketingGoalSelect.appendChild(secondaryOption);
         });
         
         // Add smooth transition effect
         elements.marketingGoalSelect.parentElement.style.opacity = '0.7';
+        elements.secondaryMarketingGoalSelect.parentElement.style.opacity = '0.7';
         setTimeout(() => {
             elements.marketingGoalSelect.parentElement.style.opacity = '1';
+            elements.secondaryMarketingGoalSelect.parentElement.style.opacity = '1';
         }, 150);
     } else {
         elements.marketingGoalSelect.disabled = true;
         elements.marketingGoalSelect.innerHTML = '<option value="">Select an industry first</option>';
+        elements.secondaryMarketingGoalSelect.disabled = true;
+        elements.secondaryMarketingGoalSelect.innerHTML = '<option value="">Select an industry first</option>';
     }
     
     updateFormValidation();
@@ -279,6 +303,12 @@ function handleIndustryChange(e) {
 // Handle marketing goal selection change
 function handleMarketingGoalChange(e) {
     selectedMarketingGoal = e.target.value;
+    updateFormValidation();
+}
+
+// Handle secondary marketing goal selection change
+function handleSecondaryMarketingGoalChange(e) {
+    selectedSecondaryMarketingGoal = e.target.value;
     updateFormValidation();
 }
 
@@ -318,6 +348,7 @@ async function handleFormSubmit(e) {
         const requestData = {
             industry: formData.get('industry'),
             marketingGoal: formData.get('marketingGoal'),
+            secondaryMarketingGoal: formData.get('secondaryMarketingGoal') || '',
             selectedPlatforms: selectedPlatforms,
             monthlyBudget: parseInt(formData.get('monthlyBudget').replace(/,/g, ''))
         };
@@ -414,6 +445,12 @@ function displayResults(data) {
             <div class="summary-label">Industry</div>
             <div class="summary-value">${input.industry}</div>
         </div>
+        ${input.secondaryMarketingGoal ? `
+        <div class="summary-item">
+            <div class="summary-label">Secondary Goal</div>
+            <div class="summary-value">${input.secondaryMarketingGoal}</div>
+        </div>
+        ` : ''}
     `;
     
     // Display media plan options

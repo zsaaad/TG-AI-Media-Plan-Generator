@@ -32,14 +32,14 @@ async function generateEnhancedMediaPlan(userInput, baselineRecommendations) {
  * Create a detailed prompt for Gemini AI
  */
 function createMediaPlanPrompt(userInput, baseline) {
-  const { industry, marketingGoal, selectedPlatforms, monthlyBudget } = userInput;
+  const { industry, marketingGoal, secondaryMarketingGoal, selectedPlatforms, monthlyBudget } = userInput;
   
   return `
 As a senior digital marketing strategist, create 2 distinct media plan options for this campaign:
 
 **Campaign Details:**
 - Industry: ${industry}
-- Marketing Goal: ${marketingGoal}
+- Primary Marketing Goal: ${marketingGoal}${secondaryMarketingGoal ? `\n- Secondary Marketing Goal: ${secondaryMarketingGoal}` : ''}
 - Selected Platforms: ${selectedPlatforms.join(', ')}
 - Monthly Budget: MYR ${monthlyBudget.toLocaleString()}
 

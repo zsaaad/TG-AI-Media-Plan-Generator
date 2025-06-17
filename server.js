@@ -243,7 +243,7 @@ app.get('/api/options', (req, res) => {
 
 app.post('/api/generate-plan', async (req, res) => {
   try {
-    const { industry, marketingGoal, selectedPlatforms, monthlyBudget } = req.body;
+    const { industry, marketingGoal, secondaryMarketingGoal, selectedPlatforms, monthlyBudget } = req.body;
     
     // Input validation
     if (!industry || !marketingGoal || !selectedPlatforms || !monthlyBudget) {
@@ -298,17 +298,17 @@ app.post('/api/generate-plan', async (req, res) => {
       // Use AI to generate enhanced recommendations
       const baselineRecommendation = matchingScenarios[0].recommendation;
       mediaPlans = await aiService.generateEnhancedMediaPlan(
-        { industry, marketingGoal, selectedPlatforms, monthlyBudget },
+        { industry, marketingGoal, secondaryMarketingGoal, selectedPlatforms, monthlyBudget },
         baselineRecommendation
       );
     } else {
       // Fallback to rule-based generation
-      mediaPlans = generateTwoMediaPlanOptions(matchingScenarios, monthlyBudget, { industry, marketingGoal, selectedPlatforms });
+      mediaPlans = generateTwoMediaPlanOptions(matchingScenarios, monthlyBudget, { industry, marketingGoal, secondaryMarketingGoal, selectedPlatforms });
     }
     
     res.json({
       success: true,
-      input: { industry, marketingGoal, selectedPlatforms, monthlyBudget },
+      input: { industry, marketingGoal, secondaryMarketingGoal, selectedPlatforms, monthlyBudget },
       mediaPlans,
       summary: {
         totalOptions: mediaPlans.length,
