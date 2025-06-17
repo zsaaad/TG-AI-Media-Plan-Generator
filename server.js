@@ -39,6 +39,77 @@ function hasIntersection(arr1, arr2) {
   return arr1.some(item => arr2.includes(item));
 }
 
+// Marketing goal mapping - maps new industry-specific goals to existing scenario goals
+const goalMapping = {
+  // B2B Services goals
+  'Lead Generation': 'Lead Generation',
+  'Brand Awareness': 'Brand Awareness',
+  'Website Traffic': 'Website Traffic',
+  'Appointment Bookings': 'Lead Generation',
+  'Demo Requests': 'Lead Generation',
+  'White Paper Downloads': 'Lead Generation',
+  'Webinar Registrations': 'Lead Generation',
+  'Contact Form Submissions': 'Lead Generation',
+  
+  // E-commerce goals
+  'Online Sales': 'Sales/Conversions',
+  'Add to Cart': 'Sales/Conversions',
+  'Newsletter Signups': 'Lead Generation',
+  'Product Page Views': 'Website Traffic',
+  'Customer Retention': 'Brand Awareness',
+  'Mobile App Downloads': 'Sales/Conversions',
+  
+  // Education goals
+  'Course Enrollments': 'Lead Generation',
+  'Brochure Downloads': 'Lead Generation',
+  'Campus Visits': 'Lead Generation',
+  'Application Submissions': 'Lead Generation',
+  'Student Recruitment': 'Lead Generation',
+  
+  // F&B goals
+  'Online Orders': 'Sales/Conversions',
+  'Store Visits': 'Website Traffic',
+  'Table Reservations': 'Lead Generation',
+  'Menu Downloads': 'Lead Generation',
+  'Delivery App Downloads': 'Sales/Conversions',
+  'Loyalty Program Signups': 'Lead Generation',
+  'Event Bookings': 'Lead Generation',
+  
+  // Fashion & Apparel goals
+  'Catalog Downloads': 'Lead Generation',
+  'Lookbook Views': 'Website Traffic',
+  'Size Guide Downloads': 'Website Traffic',
+  'Style Consultation Bookings': 'Lead Generation',
+  
+  // Health & Wellness goals
+  'Appointment Bookings': 'Lead Generation',
+  'Service Inquiries': 'Lead Generation',
+  'Health Assessment Downloads': 'Lead Generation',
+  'Consultation Requests': 'Lead Generation',
+  'Membership Signups': 'Lead Generation',
+  'Wellness Program Enrollments': 'Lead Generation',
+  
+  // Real Estate goals
+  'Property Inquiries': 'Lead Generation',
+  'Property Viewings': 'Lead Generation',
+  'Site Visits': 'Website Traffic',
+  'Valuation Requests': 'Lead Generation',
+  'Mortgage Consultations': 'Lead Generation',
+  'Investment Seminars': 'Lead Generation',
+  
+  // Travel & Hospitality goals
+  'Bookings': 'Sales/Conversions',
+  'Booking Inquiries': 'Lead Generation',
+  'Package Inquiries': 'Lead Generation',
+  'Travel Guide Downloads': 'Lead Generation',
+  'Virtual Tour Views': 'Website Traffic'
+};
+
+// Helper function to map new goals to existing scenario goals
+function mapMarketingGoal(newGoal) {
+  return goalMapping[newGoal] || newGoal;
+}
+
 // Helper function to match scenario conditions
 function matchScenario(userInput, scenario) {
   const { industry, marketingGoal, budgetTier } = userInput;
@@ -50,9 +121,12 @@ function matchScenario(userInput, scenario) {
     conditions.industry
   );
   
+  // Map the new marketing goal to existing scenario goal for matching
+  const mappedGoal = mapMarketingGoal(marketingGoal);
+  
   // Check if marketing goals match (handles both single and multiple goals)
   const goalMatch = hasIntersection(
-    Array.isArray(marketingGoal) ? marketingGoal : [marketingGoal], 
+    Array.isArray(mappedGoal) ? mappedGoal : [mappedGoal], 
     conditions.marketingGoal
   );
   

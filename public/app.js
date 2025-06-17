@@ -1,6 +1,9 @@
 // App State
 let formOptions = {};
 let currentResults = null;
+let selectedIndustry = '';
+let selectedMarketingGoal = '';
+let availableGoals = [];
 
 // Platform colors for visual consistency
 const platformColors = {
@@ -9,6 +12,90 @@ const platformColors = {
     'LinkedIn': '#0A66C2',
     'TikTok': '#000000',
     'Xiaohongshu': '#FF2442'
+};
+
+// Industry-specific marketing goals mapping
+const industryMarketingGoals = {
+    'B2B Services': [
+        'Lead Generation',
+        'Brand Awareness',
+        'Website Traffic',
+        'Appointment Bookings',
+        'Demo Requests',
+        'White Paper Downloads',
+        'Webinar Registrations',
+        'Contact Form Submissions'
+    ],
+    'E-commerce': [
+        'Online Sales',
+        'Brand Awareness', 
+        'Website Traffic',
+        'Add to Cart',
+        'Newsletter Signups',
+        'Product Page Views',
+        'Customer Retention',
+        'Mobile App Downloads'
+    ],
+    'Education': [
+        'Course Enrollments',
+        'Lead Generation',
+        'Brand Awareness',
+        'Webinar Registrations',
+        'Brochure Downloads',
+        'Campus Visits',
+        'Application Submissions',
+        'Student Recruitment'
+    ],
+    'F&B': [
+        'Online Orders',
+        'Brand Awareness',
+        'Store Visits',
+        'Table Reservations',
+        'Menu Downloads',
+        'Delivery App Downloads',
+        'Loyalty Program Signups',
+        'Event Bookings'
+    ],
+    'Fashion & Apparel': [
+        'Online Sales',
+        'Brand Awareness',
+        'Store Visits',
+        'Catalog Downloads',
+        'Newsletter Signups',
+        'Lookbook Views',
+        'Size Guide Downloads',
+        'Style Consultation Bookings'
+    ],
+    'Health & Wellness': [
+        'Appointment Bookings',
+        'Lead Generation',
+        'Brand Awareness',
+        'Service Inquiries',
+        'Health Assessment Downloads',
+        'Consultation Requests',
+        'Membership Signups',
+        'Wellness Program Enrollments'
+    ],
+    'Real Estate': [
+        'Property Inquiries',
+        'Lead Generation',
+        'Property Viewings',
+        'Brochure Downloads',
+        'Site Visits',
+        'Valuation Requests',
+        'Mortgage Consultations',
+        'Investment Seminars'
+    ],
+    'Travel & Hospitality': [
+        'Bookings',
+        'Brand Awareness',
+        'Booking Inquiries',
+        'Brochure Downloads',
+        'Package Inquiries',
+        'Travel Guide Downloads',
+        'Newsletter Signups',
+        'Virtual Tour Views'
+    ]
 };
 
 // DOM Elements
@@ -60,13 +147,10 @@ function populateSelectOptions() {
         elements.industrySelect.appendChild(option);
     });
 
-    // Populate marketing goals
-    formOptions.marketingGoals.forEach(goal => {
-        const option = document.createElement('option');
-        option.value = goal;
-        option.textContent = goal;
-        elements.marketingGoalSelect.appendChild(option);
-    });
+    // Marketing goals will be populated dynamically based on industry selection
+    // Keep the marketing goal select disabled initially
+    elements.marketingGoalSelect.disabled = true;
+    elements.marketingGoalSelect.innerHTML = '<option value="">Select an industry first</option>';
 
     // Populate budget tiers
     formOptions.budgetTiers.forEach(tier => {
@@ -80,8 +164,78 @@ function populateSelectOptions() {
 // Attach event listeners
 function attachEventListeners() {
     elements.form.addEventListener('submit', handleFormSubmit);
+    elements.industrySelect.addEventListener('change', handleIndustryChange);
+    elements.marketingGoalSelect.addEventListener('change', handleMarketingGoalChange);
     
-    // Removed budget input formatting to avoid conflicts with HTML5 number validation
+    // Update form validation on input changes
+    [elements.industrySelect, elements.marketingGoalSelect, elements.budgetTierSelect, elements.totalBudgetInput]
+        .forEach(element => {
+            element.addEventListener('change', updateFormValidation);
+            element.addEventListener('input', updateFormValidation);
+        });
+    
+    // Initial form validation check
+    updateFormValidation();
+}
+
+// Handle industry selection change
+function handleIndustryChange(e) {
+    selectedIndustry = e.target.value;
+    availableGoals = industryMarketingGoals[selectedIndustry] || [];
+    
+    // Reset marketing goal selection
+    selectedMarketingGoal = '';
+    elements.marketingGoalSelect.value = '';
+    
+    // Update marketing goals dropdown
+    if (selectedIndustry) {
+        elements.marketingGoalSelect.disabled = false;
+        elements.marketingGoalSelect.innerHTML = '<option value="">Choose a goal...</option>';
+        
+        availableGoals.forEach(goal => {
+            const option = document.createElement('option');
+            option.value = goal;
+            option.textContent = goal;
+            elements.marketingGoalSelect.appendChild(option);
+        });
+        
+        // Add smooth transition effect
+        elements.marketingGoalSelect.parentElement.style.opacity = '0.7';
+        setTimeout(() => {
+            elements.marketingGoalSelect.parentElement.style.opacity = '1';
+        }, 150);
+    } else {
+        elements.marketingGoalSelect.disabled = true;
+        elements.marketingGoalSelect.innerHTML = '<option value="">Select an industry first</option>';
+    }
+    
+    updateFormValidation();
+}
+
+// Handle marketing goal selection change
+function handleMarketingGoalChange(e) {
+    selectedMarketingGoal = e.target.value;
+    updateFormValidation();
+}
+
+// Update form validation and button state
+function updateFormValidation() {
+    const industry = elements.industrySelect.value;
+    const marketingGoal = elements.marketingGoalSelect.value;
+    const budgetTier = elements.budgetTierSelect.value;
+    const totalBudget = elements.totalBudgetInput.value;
+    
+    const isFormValid = industry && marketingGoal && budgetTier && totalBudget && 
+                       parseInt(totalBudget) >= 500 && parseInt(totalBudget) <= 500000;
+    
+    elements.generateBtn.disabled = !isFormValid;
+    
+    // Update button appearance based on validation
+    if (isFormValid) {
+        elements.generateBtn.classList.remove('disabled');
+    } else {
+        elements.generateBtn.classList.add('disabled');
+    }
 }
 
 // Budget input formatting removed to avoid HTML5 number input conflicts

@@ -205,10 +205,27 @@ body {
     border-color: var(--primary-color);
 }
 
-.btn:disabled {
+.btn:disabled,
+.btn.disabled {
     opacity: 0.6;
     cursor: not-allowed;
     pointer-events: none;
+    background: var(--bg-secondary) !important;
+    color: var(--text-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Form group transitions */
+.form-group {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Select element disabled state */
+.form-select:disabled {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 /* Spinner */
