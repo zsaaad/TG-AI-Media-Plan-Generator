@@ -1,0 +1,547 @@
+{
+  "scenarios": [
+    {
+      "conditions": {
+        "industry": ["B2B Services"],
+        "marketingGoal": ["Lead Generation"],
+        "budgetTier": "Low"
+      },
+      "recommendation": [
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.7,
+          "recommendedObjective": "Search Ads for Lead Generation",
+          "justification": "Google Search captures high-intent B2B prospects at lower cost than LinkedIn for small budgets."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.3,
+          "recommendedObjective": "Lead Generation Forms",
+          "justification": "Meta provides cost-effective B2B lead generation with detailed targeting options."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["B2B Services"],
+        "marketingGoal": ["Lead Generation"],
+        "budgetTier": "Medium"
+      },
+      "recommendation": [
+        {
+          "platform": "LinkedIn",
+          "budgetSplitPercentage": 0.5,
+          "recommendedObjective": "Lead Generation Forms",
+          "justification": "LinkedIn offers the highest quality B2B leads with professional targeting capabilities."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Search Ads for Lead Generation",
+          "justification": "Google Search captures active B2B buyers searching for solutions."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.15,
+          "recommendedObjective": "Lead Generation Forms",
+          "justification": "Meta provides additional lead volume with broader professional targeting."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["B2B Services"],
+        "marketingGoal": ["Lead Generation"],
+        "budgetTier": "High"
+      },
+      "recommendation": [
+        {
+          "platform": "LinkedIn",
+          "budgetSplitPercentage": 0.45,
+          "recommendedObjective": "Lead Generation Forms",
+          "justification": "LinkedIn delivers premium B2B leads with advanced professional targeting."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Search Ads for Lead Generation",
+          "justification": "Google Search captures high-intent prospects actively seeking B2B solutions."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.2,
+          "recommendedObjective": "Lead Generation Forms",
+          "justification": "Meta expands reach to business decision-makers on social platforms."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["E-commerce"],
+        "marketingGoal": ["Sales/Conversions"],
+        "budgetTier": "Low"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.6,
+          "recommendedObjective": "Purchase Conversions",
+          "justification": "Meta excels at driving e-commerce sales with strong social proof and visual advertising."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.4,
+          "recommendedObjective": "Shopping Ads",
+          "justification": "Google Shopping captures high-intent purchase traffic at the bottom of the funnel."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["E-commerce"],
+        "marketingGoal": ["Sales/Conversions"],
+        "budgetTier": "Medium"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.45,
+          "recommendedObjective": "Purchase Conversions",
+          "justification": "Meta's visual format and social commerce features drive strong e-commerce performance."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Shopping Ads",
+          "justification": "Google Shopping ads capture users actively searching for products to purchase."
+        },
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.2,
+          "recommendedObjective": "Product Sales",
+          "justification": "TikTok's engaging video format drives impulse purchases among younger demographics."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["E-commerce"],
+        "marketingGoal": ["Brand Awareness"],
+        "budgetTier": "Low"
+      },
+      "recommendation": [
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.7,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "TikTok provides the most cost-effective brand awareness for e-commerce with viral potential."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.3,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "Instagram Reels complement TikTok strategy with cross-platform brand visibility."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["F&B"],
+        "marketingGoal": ["Brand Awareness"],
+        "budgetTier": "Low"
+      },
+      "recommendation": [
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.8,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "TikTok's food content performs exceptionally well with high engagement and viral potential."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.2,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "Instagram complements TikTok with visual food content and local community targeting."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["F&B"],
+        "marketingGoal": ["Sales/Conversions"],
+        "budgetTier": "Medium"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.5,
+          "recommendedObjective": "Store Visits/Conversions",
+          "justification": "Meta's location-based targeting drives foot traffic to F&B establishments effectively."
+        },
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.3,
+          "recommendedObjective": "Store Visits",
+          "justification": "TikTok's engaging food content creates strong intent to visit restaurants."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.2,
+          "recommendedObjective": "Local Search Ads",
+          "justification": "Google captures local search intent for dining and food delivery orders."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["Real Estate"],
+        "marketingGoal": ["Lead Generation"],
+        "budgetTier": "High"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.5,
+          "recommendedObjective": "Lead Generation Forms",
+          "justification": "Meta's detailed demographic targeting excels at reaching property buyers and investors."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.4,
+          "recommendedObjective": "Search Ads for Lead Generation",
+          "justification": "Google captures high-intent property searches and location-based queries."
+        },
+        {
+          "platform": "LinkedIn",
+          "budgetSplitPercentage": 0.1,
+          "recommendedObjective": "Lead Generation",
+          "justification": "LinkedIn targets high-net-worth professionals for luxury property segments."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["Fashion & Apparel"],
+        "marketingGoal": ["Brand Awareness"],
+        "budgetTier": "Medium"
+      },
+      "recommendation": [
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.4,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "TikTok drives fashion trends and has strong influence on apparel purchase decisions."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "Instagram's visual focus is perfect for showcasing fashion and building brand aesthetics."
+        },
+        {
+          "platform": "Xiaohongshu",
+          "budgetSplitPercentage": 0.25,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "Xiaohongshu is highly influential for fashion discovery among Chinese-speaking audiences in SEA."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["Health & Wellness"],
+        "marketingGoal": ["Lead Generation"],
+        "budgetTier": "Medium"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.5,
+          "recommendedObjective": "Lead Generation Forms",
+          "justification": "Meta's interest-based targeting effectively reaches health-conscious consumers."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Search Ads for Lead Generation",
+          "justification": "Google captures health-related search intent and medical service queries."
+        },
+        {
+          "platform": "Xiaohongshu",
+          "budgetSplitPercentage": 0.15,
+          "recommendedObjective": "Lead Generation",
+          "justification": "Xiaohongshu has strong wellness community engagement and trusted recommendations."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["Education"],
+        "marketingGoal": ["Lead Generation"],
+        "budgetTier": "Low"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.6,
+          "recommendedObjective": "Lead Generation Forms",
+          "justification": "Meta's detailed targeting reaches students and parents cost-effectively."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.4,
+          "recommendedObjective": "Search Ads for Lead Generation",
+          "justification": "Google captures education-related searches and course inquiries."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["Education"],
+        "marketingGoal": ["Lead Generation"],
+        "budgetTier": "Medium"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.5,
+          "recommendedObjective": "Lead Generation Forms",
+          "justification": "Meta's advanced targeting capabilities effectively reach students and parents with educational interests."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Search Ads for Lead Generation",
+          "justification": "Google captures high-intent searches for courses, training, and educational programs."
+        },
+        {
+          "platform": "LinkedIn",
+          "budgetSplitPercentage": 0.15,
+          "recommendedObjective": "Lead Generation",
+          "justification": "LinkedIn targets professionals seeking career development and continuing education opportunities."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["Travel & Hospitality"],
+        "marketingGoal": ["Sales/Conversions"],
+        "budgetTier": "High"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.4,
+          "recommendedObjective": "Purchase Conversions",
+          "justification": "Meta's visual storytelling inspires travel bookings and showcases destinations effectively."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Hotel/Travel Ads",
+          "justification": "Google captures high-intent travel searches and booking behavior."
+        },
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.15,
+          "recommendedObjective": "Conversions",
+          "justification": "TikTok's travel content drives inspiration and younger demographic bookings."
+        },
+        {
+          "platform": "Xiaohongshu",
+          "budgetSplitPercentage": 0.1,
+          "recommendedObjective": "Conversions",
+          "justification": "Xiaohongshu influences travel decisions through authentic user-generated content."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["E-commerce", "Fashion & Apparel"],
+        "marketingGoal": ["Website Traffic"],
+        "budgetTier": "Medium"
+      },
+      "recommendation": [
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.4,
+          "recommendedObjective": "Search Ads for Traffic",
+          "justification": "Google drives high-quality website traffic from users actively searching for products."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Website Traffic",
+          "justification": "Meta's visual ads effectively drive traffic to e-commerce and fashion websites."
+        },
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.25,
+          "recommendedObjective": "Website Traffic",
+          "justification": "TikTok's engaging content drives curious users to explore brand websites."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["B2B Services", "Education"],
+        "marketingGoal": ["Brand Awareness"],
+        "budgetTier": "High"
+      },
+      "recommendation": [
+        {
+          "platform": "LinkedIn",
+          "budgetSplitPercentage": 0.4,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "LinkedIn provides professional credibility and thought leadership positioning."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Display Network for Awareness",
+          "justification": "Google Display Network provides broad reach for B2B brand awareness campaigns."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.25,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "Meta extends reach to decision-makers on social platforms outside work hours."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["Real Estate", "Health & Wellness"],
+        "marketingGoal": ["Website Traffic"],
+        "budgetTier": "Low"
+      },
+      "recommendation": [
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.6,
+          "recommendedObjective": "Search Ads for Traffic",
+          "justification": "Google effectively captures local search intent for real estate and health services."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.4,
+          "recommendedObjective": "Website Traffic",
+          "justification": "Meta's location and interest targeting drives relevant traffic cost-effectively."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["F&B", "Travel & Hospitality"],
+        "marketingGoal": ["Brand Awareness"],
+        "budgetTier": "High"
+      },
+      "recommendation": [
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "TikTok's visual storytelling creates strong emotional connections with F&B and travel brands."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.3,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "Instagram and Facebook showcase beautiful visuals for food and travel experiences."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.2,
+          "recommendedObjective": "Display Network for Awareness",
+          "justification": "Google Display provides broad reach for visual brand awareness campaigns."
+        },
+        {
+          "platform": "Xiaohongshu",
+          "budgetSplitPercentage": 0.15,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "Xiaohongshu drives authentic recommendations for food and travel experiences."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["Education", "Health & Wellness"],
+        "marketingGoal": ["Sales/Conversions"],
+        "budgetTier": "Medium"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.45,
+          "recommendedObjective": "Conversions",
+          "justification": "Meta's detailed targeting reaches specific demographics for education and health services."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.4,
+          "recommendedObjective": "Search Ads for Conversions",
+          "justification": "Google captures high-intent searches for educational courses and health services."
+        },
+        {
+          "platform": "LinkedIn",
+          "budgetSplitPercentage": 0.15,
+          "recommendedObjective": "Conversions",
+          "justification": "LinkedIn targets professionals seeking career development and wellness programs."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["Fashion & Apparel", "Health & Wellness"],
+        "marketingGoal": ["Sales/Conversions"],
+        "budgetTier": "High"
+      },
+      "recommendation": [
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Purchase Conversions",
+          "justification": "Meta's visual advertising and social proof drive strong conversion rates for lifestyle brands."
+        },
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.25,
+          "recommendedObjective": "Product Sales",
+          "justification": "TikTok's engaging content creates strong purchase intent for fashion and wellness products."
+        },
+        {
+          "platform": "Google",
+          "budgetSplitPercentage": 0.25,
+          "recommendedObjective": "Shopping Ads",
+          "justification": "Google Shopping captures product searches and comparison shopping behavior."
+        },
+        {
+          "platform": "Xiaohongshu",
+          "budgetSplitPercentage": 0.15,
+          "recommendedObjective": "Conversions",
+          "justification": "Xiaohongshu provides trusted product recommendations that drive purchase decisions."
+        }
+      ]
+    },
+    {
+      "conditions": {
+        "industry": ["E-commerce", "F&B", "Fashion & Apparel"],
+        "marketingGoal": ["Brand Awareness", "Website Traffic"],
+        "budgetTier": "Low"
+      },
+      "recommendation": [
+        {
+          "platform": "TikTok",
+          "budgetSplitPercentage": 0.65,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "TikTok offers the most cost-effective brand awareness with high engagement rates for consumer brands."
+        },
+        {
+          "platform": "Meta",
+          "budgetSplitPercentage": 0.35,
+          "recommendedObjective": "Brand Awareness",
+          "justification": "Instagram Reels and Facebook provide complementary brand visibility across age groups."
+        }
+      ]
+    }
+  ]
+} 

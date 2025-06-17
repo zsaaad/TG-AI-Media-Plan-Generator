@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Media Plan Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">🎯 AI Media Plan Generator</h1>
+                <p class="subtitle">Get AI-powered platform recommendations and budget allocation for your digital marketing campaigns</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Input Form -->
+            <section class="form-section">
+                <div class="card">
+                    <h2 class="section-title">Campaign Details</h2>
+                    <form id="mediaForm" class="form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="industry" class="form-label">Industry</label>
+                                <select id="industry" name="industry" class="form-select" required>
+                                    <option value="">Select your industry</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="marketingGoal" class="form-label">Marketing Goal</label>
+                                <select id="marketingGoal" name="marketingGoal" class="form-select" required>
+                                    <option value="">Select your goal</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="budgetTier" class="form-label">Budget Tier</label>
+                                <select id="budgetTier" name="budgetTier" class="form-select" required>
+                                    <option value="">Select budget tier</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="totalBudget" class="form-label">Total Budget (MYR)</label>
+                                <input type="number" id="totalBudget" name="totalBudget" class="form-input" 
+                                       placeholder="Enter amount (500 - 500,000)" min="500" max="500000" step="1" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="generateBtn">
+                            <span class="btn-text">Generate Media Plan</span>
+                            <div class="spinner" id="spinner"></div>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="card">
+                    <div class="results-header">
+                        <h2 class="section-title">📈 Your AI-Generated Media Plan Options</h2>
+                        <div class="results-summary" id="resultsSummary"></div>
+                    </div>
+                    
+                    <div class="platforms-grid" id="platformsGrid"></div>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section class="error-section" id="errorSection" style="display: none;">
+                <div class="card error-card">
+                    <div class="error-content">
+                        <div class="error-icon">⚠️</div>
+                        <h3 class="error-title">No Matching Plan Found</h3>
+                        <p class="error-message" id="errorMessage"></p>
+                        <button class="btn btn-secondary" onclick="resetForm()">Try Different Options</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 AI Media Plan Generator. Powered by intelligent marketing insights.</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html> 
