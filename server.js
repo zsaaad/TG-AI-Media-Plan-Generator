@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const fs = require('fs');
 const path = require('path');
 const aiService = require('./ai-service');
+const pdfService = require('./pdf-service');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -319,6 +320,34 @@ app.post('/api/generate-plan', async (req, res) => {
   } catch (error) {
     console.error('Error generating plan:', error);
     res.status(500).json({ error: 'Failed to generate media plan' });
+  }
+});
+
+// PDF download endpoint
+app.post('/api/download-pdf', async (req, res) => {
+  try {
+    const { input, selectedPlan, planIndex } = req.body;
+    
+    // Input validation
+    if (!input || !selectedPlan || !planIndex) {
+      return res.status(400).json({ 
+        error: 'Missing required fields: input, selectedPlan, planIndex' 
+      });
+    }
+    
+    // Generate HTML content (will be converted to PDF by browser)
+    const htmlContent = pdfService.generateHTML({ input, selectedPlan, planIndex });
+    
+    // Set headers for HTML response that can be printed as PDF
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Disposition', `inline; filename="Toggle_Media_Plan_Option_${planIndex}.html"`);
+    
+    // Send HTML content
+    res.send(htmlContent);
+    
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    res.status(500).json({ error: 'Failed to generate PDF' });
   }
 });
 
