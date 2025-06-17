@@ -485,11 +485,6 @@ function createMediaPlanCard(mediaPlan, index) {
                     <span class="stat"><strong>MYR ${mediaPlan.totalAllocated.toLocaleString()}</strong> total</span>
                     <span class="stat">Focus: <strong>${mediaPlan.primaryPlatform}</strong></span>
                 </div>
-                <div class="option-actions">
-                    <button class="download-btn" onclick="downloadMediaPlan(${index})" title="Download this plan as PDF">
-                        📄 Download PDF
-                    </button>
-                </div>
             </div>
             
             <div class="platforms-container">
@@ -624,63 +619,7 @@ function updateAIStatus(aiEnabled) {
     }
 }
 
-// Download selected media plan as PDF
-async function downloadMediaPlan(planIndex) {
-    if (!currentResults || !currentResults.mediaPlans || !currentResults.mediaPlans[planIndex]) {
-        showError('No media plan available to download');
-        return;
-    }
 
-    try {
-        const selectedPlan = currentResults.mediaPlans[planIndex];
-        const requestData = {
-            input: currentResults.input,
-            selectedPlan: selectedPlan,
-            planIndex: planIndex + 1
-        };
-
-        // Show loading state
-        const downloadBtn = document.querySelector(`button[onclick="downloadMediaPlan(${planIndex})"]`);
-        const originalText = downloadBtn.innerHTML;
-        downloadBtn.innerHTML = '⏳ Generating PDF...';
-        downloadBtn.disabled = true;
-
-        const response = await fetch('/api/download-pdf', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-        });
-
-        if (response.ok) {
-            // Get the HTML content
-            const htmlContent = await response.text();
-            
-            // Open in new window for printing as PDF
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(htmlContent);
-            printWindow.document.close();
-            
-            // Focus on the new window and trigger print dialog
-            printWindow.focus();
-            setTimeout(() => {
-                printWindow.print();
-            }, 500);
-        } else {
-            const errorData = await response.json();
-            showError(errorData.error || 'Failed to generate PDF');
-        }
-    } catch (error) {
-        console.error('Download error:', error);
-        showError('Failed to download PDF. Please try again.');
-    } finally {
-        // Restore button state
-        downloadBtn.innerHTML = originalText;
-        downloadBtn.disabled = false;
-    }
-}
 
 // Export for global access
-window.resetForm = resetForm;
-window.downloadMediaPlan = downloadMediaPlan; 
+window.resetForm = resetForm; 
