@@ -228,6 +228,82 @@ body {
     opacity: 0.7;
 }
 
+/* Full width form group */
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Form description */
+.form-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    margin-top: 0.25rem;
+}
+
+/* Platform word cloud styles */
+.platform-word-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-light);
+    min-height: 120px;
+    transition: border-color 0.2s ease;
+}
+
+.platform-word-cloud:hover {
+    border-color: var(--primary-color);
+}
+
+.platform-tag {
+    border: 2px solid;
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+    font-family: inherit;
+    outline: none;
+}
+
+.platform-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.platform-tag.large {
+    font-size: 1.125rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+}
+
+.platform-tag.medium {
+    font-size: 1rem;
+    padding: 0.625rem 1.25rem;
+}
+
+.platform-tag.small {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+}
+
+.platform-tag.selected {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+}
+
+.platform-tag:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
 /* Spinner */
 .spinner {
     width: 20px;

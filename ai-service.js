@@ -32,7 +32,7 @@ async function generateEnhancedMediaPlan(userInput, baselineRecommendations) {
  * Create a detailed prompt for Gemini AI
  */
 function createMediaPlanPrompt(userInput, baseline) {
-  const { industry, marketingGoal, budgetTier, totalBudget } = userInput;
+  const { industry, marketingGoal, selectedPlatforms, monthlyBudget } = userInput;
   
   return `
 As a senior digital marketing strategist, create 2 distinct media plan options for this campaign:
@@ -40,18 +40,19 @@ As a senior digital marketing strategist, create 2 distinct media plan options f
 **Campaign Details:**
 - Industry: ${industry}
 - Marketing Goal: ${marketingGoal}
-- Budget Tier: ${budgetTier}
-- Total Budget: MYR ${totalBudget.toLocaleString()}
+- Selected Platforms: ${selectedPlatforms.join(', ')}
+- Monthly Budget: MYR ${monthlyBudget.toLocaleString()}
 
 **Current Baseline Recommendation:**
 ${baseline.map(rec => `- ${rec.platform}: ${Math.round(rec.budgetSplitPercentage * 100)}% (${rec.recommendedObjective})`).join('\n')}
 
 **Instructions:**
 1. Create 2 different strategic approaches
-2. Each option should have 2-4 platforms
+2. Focus on the user's selected platforms: ${selectedPlatforms.join(', ')}
 3. Budget allocations should total 100%
 4. Provide specific justifications for each platform choice
 5. Consider Malaysian market dynamics and cultural factors
+6. Prioritize the platforms the user has selected
 
 **Required JSON Format:**
 {
@@ -81,7 +82,8 @@ ${baseline.map(rec => `- ${rec.platform}: ${Math.round(rec.budgetSplitPercentage
   }
 }
 
-**Available Platforms:** Google, Meta, LinkedIn, TikTok, Xiaohongshu
+**User Selected Platforms:** ${selectedPlatforms.join(', ')}
+**Other Available Platforms:** Google, Meta, LinkedIn, TikTok, Xiaohongshu, YouTube, Twitter, Pinterest
 
 Respond with ONLY the JSON, no additional text.
 `;
@@ -107,7 +109,7 @@ function parseAIResponse(aiText, userInput, baseline) {
     if (aiRecommendations.option1) {
       mediaPlans.push(formatAIOption(
         aiRecommendations.option1,
-        userInput.totalBudget,
+        userInput.monthlyBudget,
         'ai-enhanced'
       ));
     }
@@ -116,7 +118,7 @@ function parseAIResponse(aiText, userInput, baseline) {
     if (aiRecommendations.option2) {
       mediaPlans.push(formatAIOption(
         aiRecommendations.option2,
-        userInput.totalBudget,
+        userInput.monthlyBudget,
         'ai-alternative'
       ));
     }
@@ -132,13 +134,13 @@ function parseAIResponse(aiText, userInput, baseline) {
 /**
  * Format AI option to match our application structure
  */
-function formatAIOption(aiOption, totalBudget, strategy) {
+function formatAIOption(aiOption, monthlyBudget, strategy) {
   const recommendations = aiOption.platforms.map(platform => ({
     platform: platform.platform,
     budgetSplitPercentage: platform.percentage,
     recommendedObjective: platform.objective,
     justification: platform.justification,
-    allocatedBudget: Math.round(totalBudget * platform.percentage)
+    allocatedBudget: Math.round(monthlyBudget * platform.percentage)
   }));
   
   const totalAllocated = recommendations.reduce((sum, rec) => sum + rec.allocatedBudget, 0);
@@ -161,12 +163,12 @@ function formatAIOption(aiOption, totalBudget, strategy) {
  * Create fallback recommendations if AI fails
  */
 function createFallbackRecommendations(userInput, baseline) {
-  const { totalBudget } = userInput;
+  const { monthlyBudget } = userInput;
   
   // Option 1: Use baseline recommendations
   const option1Recommendations = baseline.map(rec => ({
     ...rec,
-    allocatedBudget: Math.round(totalBudget * rec.budgetSplitPercentage)
+    allocatedBudget: Math.round(monthlyBudget * rec.budgetSplitPercentage)
   }));
   
   // Option 2: Create performance-focused variation
@@ -176,7 +178,7 @@ function createFallbackRecommendations(userInput, baseline) {
     return {
       ...rec,
       budgetSplitPercentage: newPercentage,
-      allocatedBudget: Math.round(totalBudget * newPercentage),
+      allocatedBudget: Math.round(monthlyBudget * newPercentage),
       justification: rec.justification + " (Performance-optimized allocation)"
     };
   });

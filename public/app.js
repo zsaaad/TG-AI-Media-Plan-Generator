@@ -4,6 +4,7 @@ let currentResults = null;
 let selectedIndustry = '';
 let selectedMarketingGoal = '';
 let availableGoals = [];
+let selectedPlatforms = [];
 
 // Platform colors for visual consistency
 const platformColors = {
@@ -98,13 +99,25 @@ const industryMarketingGoals = {
     ]
 };
 
+// Platform options for word cloud selection
+const platformOptions = [
+    { name: 'Meta', displayName: 'Meta (Facebook & Instagram)', color: '#1877F2', size: 'large' },
+    { name: 'Google', displayName: 'Google Ads', color: '#4285F4', size: 'large' },
+    { name: 'TikTok', displayName: 'TikTok Ads', color: '#FF0050', size: 'medium' },
+    { name: 'LinkedIn', displayName: 'LinkedIn Ads', color: '#0A66C2', size: 'medium' },
+    { name: 'Xiaohongshu', displayName: 'Xiaohongshu (Little Red Book)', color: '#FF2442', size: 'small' },
+    { name: 'YouTube', displayName: 'YouTube Ads', color: '#FF0000', size: 'medium' },
+    { name: 'Twitter', displayName: 'Twitter Ads', color: '#1DA1F2', size: 'small' },
+    { name: 'Pinterest', displayName: 'Pinterest Ads', color: '#E60023', size: 'small' }
+];
+
 // DOM Elements
 const elements = {
     form: document.getElementById('mediaForm'),
     industrySelect: document.getElementById('industry'),
     marketingGoalSelect: document.getElementById('marketingGoal'),
-    budgetTierSelect: document.getElementById('budgetTier'),
-    totalBudgetInput: document.getElementById('totalBudget'),
+    platformWordCloud: document.getElementById('platformWordCloud'),
+    monthlyBudgetInput: document.getElementById('monthlyBudget'),
     generateBtn: document.getElementById('generateBtn'),
     spinner: document.getElementById('spinner'),
     resultsSection: document.getElementById('resultsSection'),
@@ -119,6 +132,7 @@ const elements = {
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
     await loadFormOptions();
+    createPlatformWordCloud();
     attachEventListeners();
 });
 
@@ -151,13 +165,63 @@ function populateSelectOptions() {
     // Keep the marketing goal select disabled initially
     elements.marketingGoalSelect.disabled = true;
     elements.marketingGoalSelect.innerHTML = '<option value="">Select an industry first</option>';
+}
 
-    // Populate budget tiers
-    formOptions.budgetTiers.forEach(tier => {
-        const option = document.createElement('option');
-        option.value = tier;
-        option.textContent = tier;
-        elements.budgetTierSelect.appendChild(option);
+// Create platform word cloud
+function createPlatformWordCloud() {
+    if (!elements.platformWordCloud) return;
+    
+    elements.platformWordCloud.innerHTML = '';
+    
+    platformOptions.forEach(platform => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `platform-tag ${platform.size}`;
+        button.textContent = platform.displayName;
+        button.style.borderColor = platform.color;
+        button.style.color = platform.color;
+        button.style.backgroundColor = 'transparent';
+        
+        button.addEventListener('click', () => handlePlatformToggle(platform.name));
+        
+        elements.platformWordCloud.appendChild(button);
+    });
+}
+
+// Handle platform toggle
+function handlePlatformToggle(platformName) {
+    const platformOption = platformOptions.find(p => p.name === platformName);
+    if (!platformOption) return;
+    
+    if (selectedPlatforms.includes(platformName)) {
+        // Remove platform
+        selectedPlatforms = selectedPlatforms.filter(p => p !== platformName);
+    } else {
+        // Add platform
+        selectedPlatforms.push(platformName);
+    }
+    
+    updatePlatformButtonStates();
+    updateFormValidation();
+}
+
+// Update platform button visual states
+function updatePlatformButtonStates() {
+    const buttons = elements.platformWordCloud.querySelectorAll('.platform-tag');
+    
+    buttons.forEach(button => {
+        const platformName = platformOptions.find(p => p.displayName === button.textContent)?.name;
+        const platformOption = platformOptions.find(p => p.name === platformName);
+        
+        if (selectedPlatforms.includes(platformName)) {
+            button.classList.add('selected');
+            button.style.backgroundColor = platformOption.color;
+            button.style.color = 'white';
+        } else {
+            button.classList.remove('selected');
+            button.style.backgroundColor = 'transparent';
+            button.style.color = platformOption.color;
+        }
     });
 }
 
@@ -168,7 +232,7 @@ function attachEventListeners() {
     elements.marketingGoalSelect.addEventListener('change', handleMarketingGoalChange);
     
     // Update form validation on input changes
-    [elements.industrySelect, elements.marketingGoalSelect, elements.budgetTierSelect, elements.totalBudgetInput]
+    [elements.industrySelect, elements.marketingGoalSelect, elements.monthlyBudgetInput]
         .forEach(element => {
             element.addEventListener('change', updateFormValidation);
             element.addEventListener('input', updateFormValidation);
@@ -222,11 +286,10 @@ function handleMarketingGoalChange(e) {
 function updateFormValidation() {
     const industry = elements.industrySelect.value;
     const marketingGoal = elements.marketingGoalSelect.value;
-    const budgetTier = elements.budgetTierSelect.value;
-    const totalBudget = elements.totalBudgetInput.value;
+    const monthlyBudget = elements.monthlyBudgetInput.value;
     
-    const isFormValid = industry && marketingGoal && budgetTier && totalBudget && 
-                       parseInt(totalBudget) >= 500 && parseInt(totalBudget) <= 500000;
+    const isFormValid = industry && marketingGoal && selectedPlatforms.length > 0 && monthlyBudget && 
+                       parseInt(monthlyBudget) >= 500 && parseInt(monthlyBudget) <= 500000;
     
     elements.generateBtn.disabled = !isFormValid;
     
@@ -255,8 +318,8 @@ async function handleFormSubmit(e) {
         const requestData = {
             industry: formData.get('industry'),
             marketingGoal: formData.get('marketingGoal'),
-            budgetTier: formData.get('budgetTier'),
-            totalBudget: parseInt(formData.get('totalBudget').replace(/,/g, ''))
+            selectedPlatforms: selectedPlatforms,
+            monthlyBudget: parseInt(formData.get('monthlyBudget').replace(/,/g, ''))
         };
         
         // Validate data
@@ -293,17 +356,22 @@ async function handleFormSubmit(e) {
 
 // Validate form data
 function validateFormData(data) {
-    if (!data.industry || !data.marketingGoal || !data.budgetTier) {
+    if (!data.industry || !data.marketingGoal) {
         showError('Please fill in all required fields.');
         return false;
     }
     
-    if (!data.totalBudget || data.totalBudget < 500) {
+    if (!data.selectedPlatforms || data.selectedPlatforms.length === 0) {
+        showError('Please select at least one advertising platform.');
+        return false;
+    }
+    
+    if (!data.monthlyBudget || data.monthlyBudget < 500) {
         showError('Please enter a budget amount of at least MYR 500.');
         return false;
     }
     
-    if (data.totalBudget > 500000) {
+    if (data.monthlyBudget > 500000) {
         showError('Please enter a budget amount not exceeding MYR 500,000.');
         return false;
     }
@@ -331,16 +399,16 @@ function displayResults(data) {
     // Update summary
     elements.resultsSummary.innerHTML = `
         <div class="summary-item">
-            <div class="summary-label">Total Budget</div>
-            <div class="summary-value">MYR ${input.totalBudget.toLocaleString()}</div>
+            <div class="summary-label">Monthly Budget</div>
+            <div class="summary-value">MYR ${input.monthlyBudget.toLocaleString()}</div>
         </div>
         <div class="summary-item">
             <div class="summary-label">Media Plan Options</div>
             <div class="summary-value">${summary.totalOptions}</div>
         </div>
         <div class="summary-item">
-            <div class="summary-label">Primary Platforms</div>
-            <div class="summary-value">${summary.primaryPlatforms.join(', ')}</div>
+            <div class="summary-label">Selected Platforms</div>
+            <div class="summary-value">${input.selectedPlatforms.join(', ')}</div>
         </div>
         <div class="summary-item">
             <div class="summary-label">Industry</div>

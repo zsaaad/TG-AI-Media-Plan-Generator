@@ -243,23 +243,44 @@ app.get('/api/options', (req, res) => {
 
 app.post('/api/generate-plan', async (req, res) => {
   try {
-    const { industry, marketingGoal, budgetTier, totalBudget } = req.body;
+    const { industry, marketingGoal, selectedPlatforms, monthlyBudget } = req.body;
     
     // Input validation
-    if (!industry || !marketingGoal || !budgetTier || !totalBudget) {
+    if (!industry || !marketingGoal || !selectedPlatforms || !monthlyBudget) {
       return res.status(400).json({ 
-        error: 'Missing required fields: industry, marketingGoal, budgetTier, totalBudget' 
+        error: 'Missing required fields: industry, marketingGoal, selectedPlatforms, monthlyBudget' 
       });
     }
     
-    if (totalBudget <= 0) {
-      return res.status(400).json({ error: 'Total budget must be greater than 0' });
+    if (!Array.isArray(selectedPlatforms) || selectedPlatforms.length === 0) {
+      return res.status(400).json({ error: 'At least one platform must be selected' });
     }
     
-    // Find matching scenarios (get multiple options)
-    const matchingScenarios = scenarios.scenarios.filter(scenario => 
-      matchScenario({ industry, marketingGoal, budgetTier }, scenario)
-    );
+    if (monthlyBudget <= 0) {
+      return res.status(400).json({ error: 'Monthly budget must be greater than 0' });
+    }
+    
+    // Find matching scenarios (get multiple options) - now without budget tier constraint
+    const matchingScenarios = scenarios.scenarios.filter(scenario => {
+      const { industry: scenarioIndustry, marketingGoal: scenarioGoal } = scenario.conditions;
+      
+      // Check if industries match
+      const industryMatch = hasIntersection(
+        Array.isArray(industry) ? industry : [industry], 
+        scenarioIndustry
+      );
+      
+      // Map the new marketing goal to existing scenario goal for matching
+      const mappedGoal = mapMarketingGoal(marketingGoal);
+      
+      // Check if marketing goals match
+      const goalMatch = hasIntersection(
+        Array.isArray(mappedGoal) ? mappedGoal : [mappedGoal], 
+        scenarioGoal
+      );
+      
+      return industryMatch && goalMatch;
+    });
     
     if (matchingScenarios.length === 0) {
       return res.status(404).json({ 
@@ -277,17 +298,17 @@ app.post('/api/generate-plan', async (req, res) => {
       // Use AI to generate enhanced recommendations
       const baselineRecommendation = matchingScenarios[0].recommendation;
       mediaPlans = await aiService.generateEnhancedMediaPlan(
-        { industry, marketingGoal, budgetTier, totalBudget },
+        { industry, marketingGoal, selectedPlatforms, monthlyBudget },
         baselineRecommendation
       );
     } else {
       // Fallback to rule-based generation
-      mediaPlans = generateTwoMediaPlanOptions(matchingScenarios, totalBudget, { industry, marketingGoal, budgetTier });
+      mediaPlans = generateTwoMediaPlanOptions(matchingScenarios, monthlyBudget, { industry, marketingGoal, selectedPlatforms });
     }
     
     res.json({
       success: true,
-      input: { industry, marketingGoal, budgetTier, totalBudget },
+      input: { industry, marketingGoal, selectedPlatforms, monthlyBudget },
       mediaPlans,
       summary: {
         totalOptions: mediaPlans.length,
